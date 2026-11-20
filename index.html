@@ -104,13 +104,13 @@ function openAI(){closeTools();document.getElementById('aiPanel').classList.add(
 function closeAI(){document.getElementById('aiPanel').classList.remove('active')}
 function usePrompt(value){document.getElementById('aiInput').value=value;sendAI()}
 function addBubble(text,who){const el=document.createElement('div');el.className='bubble '+who;el.textContent=text;const log=document.getElementById('chatLog');log.appendChild(el);log.scrollTop=log.scrollHeight}
-function demoAIReply(message){const m=message.toLowerCase();if(m.includes('ترجم')||m.includes('translate'))return 'أرسل النص الذي تريد ترجمته وحدد اللغة المطلوبة.
+function demoAIReply(message){const m=message.toLowerCase();if(m.includes('ترجم')||m.includes('translate'))return `أرسل النص الذي تريد ترجمته وحدد اللغة المطلوبة.
 
-ملاحظة: الردود في هذه النسخة تجريبية وليست ناتجة عن نموذج ذكاء اصطناعي متصل.';if(m.includes('رسالة')||m.includes('اكتب')||m.includes('كتابة'))return 'أكيد. اكتب لي موضوع الرسالة، ولمن ستُرسل، والنبرة التي تفضلها.
+ملاحظة: الردود في هذه النسخة تجريبية وليست ناتجة عن نموذج ذكاء اصطناعي متصل.`;if(m.includes('رسالة')||m.includes('اكتب')||m.includes('كتابة'))return `أكيد. اكتب لي موضوع الرسالة، ولمن ستُرسل، والنبرة التي تفضلها.
 
-هذه واجهة تجريبية؛ لم يتم توصيل محرك AI الحقيقي بعد.';if(m.includes('اشرح')||m.includes('شرح'))return 'يسعدني أساعدك في الشرح. اكتب الموضوع أو السؤال بالتحديد.
+هذه واجهة تجريبية؛ لم يتم توصيل محرك AI الحقيقي بعد.`;if(m.includes('اشرح')||m.includes('شرح'))return `يسعدني أساعدك في الشرح. اكتب الموضوع أو السؤال بالتحديد.
 
-تنبيه: المساعد حاليًا في وضع العرض التجريبي، وسيحتاج ربطًا بخدمة ذكاء اصطناعي ليقدم إجابات حقيقية.';return 'وصلت رسالتك إلى واجهة NEXORA AI التجريبية. لكي أجيبك بذكاء اصطناعي حقيقي، نحتاج في الخطوة التالية ربط الواجهة بخادم آمن ونموذج AI. لم يتم إرسال رسالتك إلى أي خدمة خارجية.'}
+تنبيه: المساعد حاليًا في وضع العرض التجريبي، وسيحتاج ربطًا بخدمة ذكاء اصطناعي ليقدم إجابات حقيقية.`;return `وصلت رسالتك إلى واجهة NEXORA AI التجريبية. لكي أجيبك بذكاء اصطناعي حقيقي، نحتاج في الخطوة التالية ربط الواجهة بخادم آمن ونموذج AI. لم يتم إرسال رسالتك إلى أي خدمة خارجية.`}
 function sendAI(){const input=document.getElementById('aiInput');const value=input.value.trim();if(!value)return;addBubble(value,'user');input.value='';setTimeout(()=>addBubble(demoAIReply(value),'bot'),250)}
 document.getElementById('aiInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI()}});
 
