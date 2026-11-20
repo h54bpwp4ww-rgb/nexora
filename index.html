@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101b35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NEXORA">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<title>NEXORA — عالمك الرقمي</title>
+<style>
+:root{--navy:#101b35;--navy2:#172747;--blue:#367ee8;--cyan:#71c7ff;--ink:#17233b;--muted:#70809b;--bg:#f3f6fb;--line:#e4eaf3;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.top{background:radial-gradient(circle at 12% 0%,#254b83 0,transparent 35%),linear-gradient(135deg,#101b35,#172c50);color:white;padding:20px max(18px,calc((100% - 1080px)/2)) 34px}
+.nav{max-width:1080px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-weight:900;letter-spacing:2px;font-size:25px}.brand span{color:var(--cyan)}
+.nav small{color:#b8c9e4}.pill{border:1px solid #52709b;color:#d9e8ff;border-radius:999px;padding:7px 12px;font-size:12px}
+.hero{max-width:1080px;margin:38px auto 0}.eyebrow{color:#8fcfff;font-size:12px;font-weight:800;letter-spacing:1.5px}
+h1{font-size:clamp(30px,7vw,52px);line-height:1.2;margin:12px 0}.hero p{color:#c2d0e5;line-height:1.8;margin:0 0 22px;max-width:580px}
+.search{display:flex;max-width:560px;background:white;border-radius:14px;padding:6px;box-shadow:0 12px 35px #07142d55}
+.search input{border:0;outline:0;flex:1;min-width:0;padding:12px;color:var(--ink);background:transparent}
+.search button,.primary{border:0;background:var(--blue);color:white;padding:11px 17px;border-radius:10px;font-weight:700}
+main{max-width:1080px;margin:26px auto;padding:0 18px 50px}
+.welcome{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.welcome h2{margin:0 0 5px;font-size:21px}.welcome p{margin:0;color:var(--muted);font-size:13px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:28px 0 14px}.section-title h3{margin:0;font-size:17px}.section-title span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.card{background:white;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:0 5px 18px #1b31500a}
+.tool{cursor:pointer;transition:.18s}.tool:hover{transform:translateY(-3px);border-color:#b8d5ff;box-shadow:0 10px 25px #1b315014}
+.ico{width:43px;height:43px;border-radius:13px;background:#eaf2ff;color:#286ed0;display:grid;place-items:center;font-size:21px;margin-bottom:12px}
+.card h4{margin:0 0 6px;font-size:15px}.card p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+.feature{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+.daily{background:linear-gradient(130deg,#15294b,#214c83);color:white;border:0;position:relative;overflow:hidden}
+.daily:after{content:"✦";position:absolute;left:24px;top:18px;font-size:70px;color:#ffffff19}
+.daily p{color:#c6d8f1}.daily .tag{color:#91d1ff;font-size:11px;font-weight:800}
+.daily button{background:#fff;color:#18345c;border:0;border-radius:10px;padding:10px 14px;font-weight:700;margin-top:12px}
+.taskbox h4{margin:0 0 12px}.taskrow{display:flex;gap:8px;margin-top:10px}.taskrow input,.field{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;background:#fbfcff;outline-color:#8bbcff}
+.taskrow button{border:0;background:var(--blue);color:white;border-radius:10px;padding:0 14px}
+.tasks{padding:0;margin:12px 0 0;list-style:none}.tasks li{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line);font-size:13px}.tasks li.done span{text-decoration:line-through;color:#9aa6b8}.tasks li button{margin-right:auto;border:0;background:transparent;color:#9aa6b8;font-size:17px}
+.tool-panel{display:none;margin-top:16px}.tool-panel.active{display:block}.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.panel-head h3{margin:0}.close{border:0;background:#eef3fa;border-radius:9px;padding:8px 12px;color:#44546d}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.fieldgroup label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.result{margin-top:12px;background:#edf5ff;border:1px solid #d8e8ff;border-radius:12px;padding:13px;font-weight:800;color:#1d5ba8;min-height:48px}
+footer{text-align:center;color:#8b98ab;font-size:12px;padding:20px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.feature{grid-template-columns:1fr}.top{padding-top:16px}.hero{margin-top:28px}.welcome{align-items:flex-start}.pill{font-size:10px}}
+@media(max-width:380px){.grid{gap:9px}.card{padding:13px}.brand{font-size:22px}.search button{padding:10px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <nav class="nav"><div class="brand">NEX<span>O</span>RA</div><small>مساحتك الرقمية</small><div class="pill">الإصدار التجريبي V1</div></nav>
+  <section class="hero">
+    <div class="eyebrow">YOUR DIGITAL WORLD</div>
+    <h1>أنجز أكثر،<br>وابحث أقل.</h1>
+    <p>أدواتك الرقمية اليومية في مكان واحد. حاسبات، تنظيم، وأدوات نصوص — بسيطة وسريعة ومصممة لك.</p>
+    <div class="search"><input id="search" placeholder="ابحث عن أداة..." aria-label="ابحث عن أداة"><button onclick="searchTools()">بحث</button></div>
+  </section>
+</header>
+<main>
+  <div class="welcome"><div><h2>مرحبًا بك في NEXORA</h2><p>اختر أداة وابدأ الإنجاز مباشرة.</p></div><span class="pill" style="background:#eaf2ff;color:#286ed0;border-color:#d9e8ff">مجانية الآن</span></div>
+  <div class="section-title"><h3>استكشف الأدوات</h3><span>أدوات عملية في مكان واحد</span></div>
+  <div class="grid" id="tools">
+    <article class="card tool" data-name="حاسبة النسب المئوية" onclick="openTool('percent')"><div class="ico">％</div><h4>حاسبة النسب</h4><p>احسب النسبة أو قيمة الخصم بسهولة.</p></article>
+    <article class="card tool" data-name="محول الوحدات" onclick="openTool('convert')"><div class="ico">⇄</div><h4>محول الوحدات</h4><p>حوّل بين الكيلومتر والميل والمتر.</p></article>
+    <article class="card tool" data-name="عداد الكلمات والحروف" onclick="openTool('words')"><div class="ico">Aa</div><h4>عداد النصوص</h4><p>احسب الكلمات والحروف في نصك.</p></article>
+    <article class="card tool" data-name="منظم المهام اليومية" onclick="document.getElementById('taskInput').focus()"><div class="ico">✓</div><h4>منظم المهام</h4><p>أضف مهامك وتابع إنجازك اليومي.</p></article>
+  </div>
+
+  <section id="percent" class="card tool-panel">
+    <div class="panel-head"><h3>حاسبة النسب المئوية</h3><button class="close" onclick="closeTools()">إغلاق</button></div>
+    <div class="formgrid"><div class="fieldgroup"><label>الرقم</label><input class="field" id="pNum" type="number" placeholder="مثال: 200"></div><div class="fieldgroup"><label>النسبة المئوية</label><input class="field" id="pRate" type="number" placeholder="مثال: 15"></div></div>
+    <button class="primary" style="margin-top:12px" onclick="calcPercent()">احسب النسبة</button><div class="result" id="pResult">ستظهر النتيجة هنا.</div>
+  </section>
+  <section id="convert" class="card tool-panel">
+    <div class="panel-head"><h3>محول الوحدات</h3><button class="close" onclick="closeTools()">إغلاق</button></div>
+    <div class="formgrid"><div class="fieldgroup"><label>القيمة</label><input class="field" id="cNum" type="number" placeholder="أدخل القيمة"></div><div class="fieldgroup"><label>نوع التحويل</label><select class="field" id="cType"><option value="km-mi">كيلومتر ← ميل</option><option value="mi-km">ميل ← كيلومتر</option><option value="m-cm">متر ← سنتيمتر</option><option value="cm-m">سنتيمتر ← متر</option><option value="kg-g">كيلوجرام ← جرام</option><option value="g-kg">جرام ← كيلوجرام</option></select></div></div>
+    <button class="primary" style="margin-top:12px" onclick="convert()">حوّل الآن</button><div class="result" id="cResult">ستظهر النتيجة هنا.</div>
+  </section>
+  <section id="words" class="card tool-panel">
+    <div class="panel-head"><h3>عداد النصوص</h3><button class="close" onclick="closeTools()">إغلاق</button></div>
+    <label style="display:block;color:var(--muted);font-size:12px;margin-bottom:6px" for="textInput">اكتب أو الصق النص هنا</label>
+    <textarea class="field" id="textInput" rows="5" placeholder="ابدأ الكتابة..." oninput="countWords()"></textarea>
+    <div class="result" id="wResult">0 كلمة · 0 حرف</div>
+  </section>
+
+  <div class="section-title"><h3>NEXORA DAILY</h3><span>مساحتك لإنجاز يومك</span></div>
+  <div class="feature">
+    <section class="card daily"><div class="tag">تحدي اليوم</div><h3>خطوة صغيرة تصنع فرقًا.</h3><p>اكتب أهم مهمة تريد إنجازها اليوم، وابدأ بها.</p><button onclick="document.getElementById('taskInput').focus()">أضف مهمتك الآن</button></section>
+    <section class="card taskbox"><h4>قائمة مهامي</h4><div class="taskrow"><input id="taskInput" placeholder="اكتب مهمة جديدة"><button onclick="addTask()">＋</button></div><ul class="tasks" id="tasks"></ul></section>
+  </div>
+</main>
+<footer>NEXORA © 2026 · عالمك الرقمي في مكان واحد</footer>
+<script>
+function openTool(id){closeTools();document.getElementById(id).classList.add('active');document.getElementById(id).scrollIntoView({behavior:'smooth',block:'center'})}
+function closeTools(){document.querySelectorAll('.tool-panel').forEach(x=>x.classList.remove('active'))}
+function calcPercent(){const nEl=document.getElementById('pNum'),rEl=document.getElementById('pRate'),out=document.getElementById('pResult');let n=Number(nEl.value),r=Number(rEl.value);if(!nEl.value||!rEl.value){out.textContent='أدخل الرقم والنسبة أولًا.';return}out.textContent=`${r}% من ${n} = ${(n*r/100).toLocaleString('ar')}`}
+function convert(){const nEl=document.getElementById('cNum'),typeEl=document.getElementById('cType'),out=document.getElementById('cResult');let n=Number(nEl.value);if(!nEl.value){out.textContent='أدخل قيمة للتحويل.';return}let map={'km-mi':[.621371,'ميل'],'mi-km':[1.60934,'كم'],'m-cm':[100,'سم'],'cm-m':[.01,'متر'],'kg-g':[1000,'جرام'],'g-kg':[.001,'كجم']};let [factor,label]=map[typeEl.value];out.textContent=`النتيجة: ${(n*factor).toLocaleString('ar',{maximumFractionDigits:4})} ${label}`}
+function countWords(){const input=document.getElementById('textInput'),out=document.getElementById('wResult');let t=input.value.trim();let words=t?t.split(/\s+/).length:0;out.textContent=`${words.toLocaleString('ar')} كلمة · ${input.value.length.toLocaleString('ar')} حرف`}
+function searchTools(){let q=document.getElementById('search').value.trim().toLowerCase();document.querySelectorAll('.tool[data-name]').forEach(el=>{el.style.display=el.dataset.name.toLowerCase().includes(q)?'block':'none'})}
+const taskInput=document.getElementById('taskInput'),tasks=document.getElementById('tasks');
+function loadTasks(){let data=[];try{data=JSON.parse(localStorage.getItem('nexoraTasks')||'[]')}catch(e){};tasks.innerHTML='';data.forEach((t,i)=>{let li=document.createElement('li');if(t.done)li.classList.add('done');let cb=document.createElement('input');cb.type='checkbox';cb.checked=t.done;cb.onchange=()=>{data[i].done=cb.checked;saveTasks(data)};let span=document.createElement('span');span.textContent=t.text;let del=document.createElement('button');del.textContent='×';del.setAttribute('aria-label','حذف المهمة');del.onclick=()=>{data.splice(i,1);saveTasks(data)};li.append(cb,span,del);tasks.append(li)})}
+function saveTasks(data){try{localStorage.setItem('nexoraTasks',JSON.stringify(data))}catch(e){};loadTasks()}
+function addTask(){let t=taskInput.value.trim();if(!t)return;let data=[];try{data=JSON.parse(localStorage.getItem('nexoraTasks')||'[]')}catch(e){};data.push({text:t,done:false});taskInput.value='';saveTasks(data)}
+taskInput.addEventListener('keydown',e=>{if(e.key==='Enter')addTask()});loadTasks();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+</body></html>
