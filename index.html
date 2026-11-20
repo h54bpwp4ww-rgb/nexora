@@ -61,8 +61,8 @@ footer{text-align:center;color:#8b98ab;font-size:12px;padding:20px}
 <main>
   <div class="welcome"><div><h2>مرحبًا بك في NEXORA</h2><p>اختر أداة وابدأ الإنجاز مباشرة.</p></div><span class="pill" style="background:#eaf2ff;color:#286ed0;border-color:#d9e8ff">مجانية الآن</span></div>
   <section id="aiPanel" class="card ai-panel">
-    <div class="ai-head"><div><h3>✦ NEXORA AI</h3><p>مساعدك الذكي — واجهة تجريبية</p></div><span class="ai-status">نسخة أولية</span><button class="close" onclick="closeAI()">إغلاق</button></div>
-    <div class="chat-log" id="chatLog" aria-live="polite"><div class="bubble bot">أهلًا بك! أنا NEXORA AI. أقدر أساعدك في الكتابة والترجمة والتخطيط وشرح الأفكار. هذه نسخة تجريبية؛ الردود حاليًا محدودة ولم يتم ربط نموذج ذكاء اصطناعي مباشر بعد.</div></div>
+    <div class="ai-head"><div><h3>✦ NEXORA AI</h3><p>مساعدك الذكي — محادثة مباشرة</p></div><span class="ai-status" id="aiStatus">جاهز للمحادثة</span><button class="close" onclick="closeAI()">إغلاق</button></div>
+    <div class="chat-log" id="chatLog" aria-live="polite"><div class="bubble bot">أهلًا بك! أنا NEXORA AI. أقدر أساعدك في الأسئلة والشرح والترجمة والكتابة والأفكار. اكتب لي وش تحتاج.</div></div>
     <div class="quick-prompts"><button onclick="usePrompt('ترجم لي: Have a great day')">ترجمة</button><button onclick="usePrompt('ساعدني أكتب رسالة رسمية')">كتابة</button><button onclick="usePrompt('اشرح لي مفهوم الذكاء الاصطناعي ببساطة')">شرح</button></div>
     <div class="chat-compose"><textarea id="aiInput" rows="1" placeholder="اكتب رسالتك هنا..."></textarea><button onclick="sendAI()">إرسال</button></div>
   </section>
@@ -104,20 +104,55 @@ function openAI(){closeTools();document.getElementById('aiPanel').classList.add(
 function closeAI(){document.getElementById('aiPanel').classList.remove('active')}
 function usePrompt(value){document.getElementById('aiInput').value=value;sendAI()}
 function addBubble(text,who){const el=document.createElement('div');el.className='bubble '+who;el.textContent=text;const log=document.getElementById('chatLog');log.appendChild(el);log.scrollTop=log.scrollHeight}
-function demoAIReply(message){
-  const m=message.toLowerCase();
-  if(m.includes('ترجم')||m.includes('translate')) return `أرسل النص الذي تريد ترجمته وحدد اللغة المطلوبة.
+// ضع رابط Cloudflare Worker بعد نشره في هذا السطر
+const NEXORA_AI_ENDPOINT = "https://nexora-ai.fwwrvvr2gz.workers.dev/";
+let nexoraPreviousInteractionId = localStorage.getItem("nexoraAIConversation") || "";
 
-ملاحظة: الردود في هذه النسخة تجريبية وليست ناتجة عن نموذج ذكاء اصطناعي متصل.`;
-  if(m.includes('رسالة')||m.includes('اكتب')||m.includes('كتابة')) return `أكيد. اكتب لي موضوع الرسالة، ولمن ستُرسل، والنبرة التي تفضلها.
-
-هذه واجهة تجريبية؛ لم يتم توصيل محرك AI الحقيقي بعد.`;
-  if(m.includes('اشرح')||m.includes('شرح')) return `يسعدني أساعدك في الشرح. اكتب الموضوع أو السؤال بالتحديد.
-
-تنبيه: المساعد حاليًا في وضع العرض التجريبي، وسيحتاج ربطًا بخدمة ذكاء اصطناعي ليقدم إجابات حقيقية.`;
-  return `وصلت رسالتك إلى واجهة NEXORA AI التجريبية. لكي أجيبك بذكاء اصطناعي حقيقي، نحتاج في الخطوة التالية ربط الواجهة بخادم آمن ونموذج AI. لم يتم إرسال رسالتك إلى أي خدمة خارجية.`;
+async function sendAI(){
+  const input=document.getElementById('aiInput');
+  const value=input.value.trim();
+  if(!value)return;
+  addBubble(value,'user');
+  input.value='';
+  const sendButton=document.querySelector('.chat-compose button');
+  const status=document.getElementById('aiStatus');
+  sendButton.disabled=true;
+  sendButton.textContent='...';
+  status.textContent='يفكر الآن';
+  const typing=document.createElement('div');
+  typing.className='bubble bot';
+  typing.textContent='لحظة، أجهز لك الرد...';
+  typing.id='nexoraTyping';
+  document.getElementById('chatLog').appendChild(typing);
+  try{
+    if(NEXORA_AI_ENDPOINT==="PASTE_YOUR_WORKER_URL_HERE"){
+      throw new Error('لم يتم ربط رابط المساعد بعد. نحتاج رابط الخادم مرة واحدة.');
+    }
+    const response=await fetch(NEXORA_AI_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:value,previousInteractionId:nexoraPreviousInteractionId})
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.error||'تعذر الاتصال بالمساعد.');
+    if(!data.reply)throw new Error('وصل رد فارغ من المساعد، حاول مرة ثانية.');
+    typing.remove();
+    addBubble(data.reply,'bot');
+    if(data.interactionId){
+      nexoraPreviousInteractionId=data.interactionId;
+      localStorage.setItem('nexoraAIConversation',nexoraPreviousInteractionId);
+    }
+    status.textContent='متصل';
+  }catch(error){
+    typing.remove();
+    addBubble('ما قدرت أتصل بالمساعد: '+error.message,'bot');
+    status.textContent='غير متصل';
+  }finally{
+    sendButton.disabled=false;
+    sendButton.textContent='إرسال';
+    input.focus();
+  }
 }
-function sendAI(){const input=document.getElementById('aiInput');const value=input.value.trim();if(!value)return;addBubble(value,'user');input.value='';setTimeout(()=>addBubble(demoAIReply(value),'bot'),250)}
 document.getElementById('aiInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI()}});
 
 function openTool(id){closeTools();document.getElementById(id).classList.add('active');document.getElementById(id).scrollIntoView({behavior:'smooth',block:'center'})}
